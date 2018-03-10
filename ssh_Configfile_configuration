@@ -1,0 +1,254 @@
+#########################################################
+create directories exactly with these names "sockets" and "tmp" inside ~/.ssh directory
+########################################################
+#  defaults for all servers
+########################################################
+Host *
+  ServerAliveInterval 900
+  GSSAPIAuthentication yes
+  ControlMaster auto
+  ControlPath /Users/tpanduga/.ssh/tmp/%h_%p_%r
+  ControlPersist yes
+  TCPKeepAlive=yes
+  RequestTTY=yes
+  User tpanduga
+  #ControlPath /tmp/%r@%h-%p  #####add this line in all host sections if above control path is not working ######
+#####################################################
+ #   US PP1
+#####################################################
+Host uspp1
+  HostName 160.34.191.177
+  DynamicForward 9990
+
+Host uspp1.1
+  HostName 160.34.191.178
+  DynamicForward 9990
+
+HOST fpclsp*.uspp1.oraclecloud.com
+   proxyCommand /usr/bin/ssh -qax uspp1 -W %h:22
+################################################################################
+# US2 (Chicago, IL USA) a.k.a. USDC2
+################################################################################
+Host us2  
+  HostName 160.34.5.81
+  DynamicForward 9991
+
+Host us2.1 
+  HostName 160.34.5.82
+  DynamicForward 9991
+
+Host chclmp*.usdc2.oraclecloud.com chclsp*.usdc2.oraclecloud.com
+  proxyCommand /usr/bin/ssh -qax us2 -W %h:22
+#############################################################
+#  USDC2 AD1 ENSO   or USCOM-CENTRAL-E
+############################################################
+Host us2e
+  HostName 129.150.2.21
+  DynamicForward 9992
+
+Host us2e.1
+  HostName 129.150.2.22
+  DynamicForward 9992
+
+host cqclc10r426ru*.usdc2.oraclecloud.com cqclc10sp*.usdc2.oraclecloud.com cqclc10mp*.usdc2.oraclecloud.com
+     proxyCommand /usr/bin/ssh -qax us2e -W %h:22
+#############################################################
+#  USDC2 AD1 NON ENSO or USCOM-CENTRAL -1
+############################################################
+Host us2n
+  HostName 129.150.2.21
+  DynamicForward 9993
+
+Host us2n.1
+  HostName 129.150.2.22
+  DynamicForward 9993
+
+Host cqclc*.usdc2.oraclecloud.com cqclc10r16*.usdc2.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax us2n -W %h:22
+
+#############################################################
+#  USDC2 AD1 b
+############################################################
+Host us2b
+  HostName 129.150.8.21
+  DynamicForward 9994
+
+Host us2b.1
+  HostName 129.150.8.22
+  DynamicForward 9994
+
+Host cyclc12r*.usdc2.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax us2b -W %h:22
+####################################################################
+####  USDC7 - PCI 1
+###################################################################
+Host uspci1
+  HostName 129.149.2.21
+  DynamicForward 9996
+
+Host uspci1.1
+  HostName 129.149.2.22
+  DynamicForward 9996
+
+Host p1chcl*.usdc7.oraclecloud.com !p1chclc9r310*.usdc7.oraclecloud.com !p1chclc9r311*.usdc7.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax uspci1 -W %h:22
+####################################################################
+####  USDC6 - Ashburn
+###################################################################
+Host us6
+  HostName 141.145.31.49
+  DynamicForward 9997
+
+Host us6.1
+  HostName 141.145.31.50
+  DynamicForward 9997
+
+Host lpclc8*.usdc6.oraclecloud.com
+Host lpclsp*.usdc6.oraclecloud.com
+Host lpclmp*.usdc6.oraclecloud.com
+    ControlMaster no
+  proxyCommand /usr/bin/ssh -qax us6 -W %h:22
+####################################################################
+####  USDC6 - Ashburn AD1
+###################################################################
+Host us6ad1
+  HostName 129.158.2.21
+  DynamicForward 9998
+
+Host us6ad1.1
+  HostName 129.158.2.22
+  DynamicForward 9998
+
+Host lpclc8r*.usdc6.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax us6ad1 -W %h:22  
+####################################################################
+####  USDC7 - PCI 2
+###################################################################
+Host uspci2
+  HostName 129.149.2.21
+  DynamicForward 9999
+
+Host uspci2.1
+  HostName 129.149.2.22
+  DynamicForward 9999
+
+Host p1chclc9r310*.usdc7.oraclecloud.com p1chclc9r311*.usdc7.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax uspci2 -W %h:22
+###################################################################
+####  EM2 ( NLDC1 -  AMSTERDAM )
+###################################################################
+Host em2
+  HostName 141.145.31.49
+  DynamicForward 10000
+
+Host em2.1
+  HostName 141.145.31.50
+  DynamicForward 10000
+
+Host nlclsp00*.nldc1.oraclecloud.com nlclc6r323*.nldc1.oraclecloud.com nlclc6r317r*.nldc1.oraclecloud.com nlclmp00*.nldc1.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax em2 -W %h:22
+####################################################################
+####  EM2 AD1  ( NLDC1 -  AMSTERDAM AD1 )
+###################################################################
+Host em2ad1
+  HostName 130.162.2.21
+  DynamicForward 10001
+
+Host em2ad1.1
+  HostName 130.162.2.22
+  DynamicForward 10001
+
+host nlclc6r*.nldc1.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax em2ad1 -W %h:22
+####################################################################
+####  EM3 ( UKDC2 - SLOUGH )
+###################################################################
+Host em3
+  HostName 141.145.31.49
+  DynamicForward 10002
+
+Host em3.1
+  HostName 141.145.31.50
+  DynamicForward 10002
+
+host slclmp00*.ukdc2.oraclecloud.com wkclc5r700r*.ukdc2.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax em3 -W %h:22
+####################################################################
+####  EM3 AD1  ( UKDC2-WOKING AD1 )
+###################################################################
+Host em3ad1
+  HostName 144.21.2.21
+  DynamicForward 10003
+
+Host em3ad1.1
+  HostName 144.21.2.22
+  DynamicForward 10003
+
+host wkclc5r31?ru*.ukdc2.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax em3ad1 -W %h:22
+####################################################################
+####  UK GOV  (  UKG )
+###################################################################
+Host ukg
+  HostName 129.145.130.21  
+  DynamicForward 10004
+
+Host ukg.1
+  hostname 129.145.130.2
+  DynamicForward 10004
+
+host g1vtcl*.ukdc1.ukg.oraclecloud.com 
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax ukg -W %h:22
+####################################################################
+####  SYDNEY  (  AUDC1-SYDNEY )
+###################################################################
+Host syd
+  HostName 129.154.2.21
+  DynamicForward 11000
+
+Host syd.1
+  HostName 129.154.2.22
+  DynamicForward 11000
+
+host sdclc4r*.audc1.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax syd -W %h:22
+####################################################################
+####  JAPAN  (  JPDC2- JAPAN )
+###################################################################
+Host jap
+  HostName mel11-c-fa-bastion-01.ap4.oraclecloud.com
+  DynamicForward 11001
+
+Host jap.1
+  HostName mel11-c-fa-bastion-02.ap4.oraclecloud.com
+  DynamicForward 11001
+
+host jfclc1r*.jpdc2.oraclecloud.com
+   ControlMaster no
+  proxyCommand /usr/bin/ssh -qax jap -W %h:22
+####################################################################
+####  BRDC1  (  BRAZIL )
+###################################################################
+Host brdc1
+  HostName 144.22.2.21
+  DynamicForward 12000
+
+Host brdc1.1
+  HostName 144.22.2.22
+  DynamicForward 12000
+
+host sp1clc2r*.brdc1.oraclecloud.com
+  ControlMaster no
+  proxyCommand /usr/bin/ssh -qax brdc1 -W %h:22
+#############################
